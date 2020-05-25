@@ -1,0 +1,91 @@
+﻿<Page x:Class="CryptographyLabs.RSACipher"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CryptographyLabs"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="820"
+      Title="RSACipher">
+
+    <Page.Resources>
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+            <Border BorderBrush="#FF0B0C0F" BorderThickness="3" CornerRadius="2" TextBlock.Foreground="#8f9095">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStopCollection>
+                            <GradientStop Offset="0" Color="#FF0B0C0F"></GradientStop>
+                            <GradientStop Offset="1" Color="#FF0B0C0F"></GradientStop>
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <ContentPresenter RecognizesAccessKey="True" HorizontalAlignment="Center" VerticalAlignment="Top"></ContentPresenter>
+            </Border>
+        </ControlTemplate>
+
+    </Page.Resources>
+
+    <Grid Background="#303136">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="750"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="205"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="205"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu Background="#303136" Grid.ColumnSpan="2">
+            <MenuItem Header="Файл" Foreground="White" Background="#303136">
+                <MenuItem Header="Новий" Click="menuNewFile_Click" Foreground="#303136"/>
+                <MenuItem Header="Відкрити" Click="menuOpenFile_Click" Foreground="#303136"/>
+                <MenuItem Header="Зберегти" Click="menuSaveFile_Click" Foreground="#303136"/>
+                <MenuItem Header="Зберегти як" Click="menuSaveFileAs_Click" Foreground="#303136"/>
+            </MenuItem>
+            <MenuItem Header="Шифр" Foreground="White" Background="#303136">
+                <MenuItem Header="Шифр Цезаря" Click="CaesarCipher_Click" Foreground="#303136"/>
+                <MenuItem Header="Шифр Тритеміуса (за лінійним рівнянням)" Click="TrithemiusCipher_Click" Foreground="#303136"/>
+                <MenuItem Header="Шифр Тритеміуса (за нелінійним рівнянням)" Click="TrithemiusCipher2_Click" Foreground="#303136"/>
+                <MenuItem Header="Шифр гамування" Click="XORCipher_Click" Foreground="#303136"/>
+                <MenuItem Header="Шифр Віженера" Click="VigenereCipher_Click" Foreground="#303136"/>
+                <MenuItem Header="Криптосистема RSA" Click="RSACipher_Click" Foreground="#303136"/>
+                <MenuItem Header="Протокол обміну ключами Діффі-Гелмана" Click="DiffieHellmanCipher_Click" Foreground="#303136"/>
+            </MenuItem>
+            <MenuItem Header="Допомога" Foreground="White" Background="#303136" BorderBrush="#303136">
+                <MenuItem Header="Про програму" Click="Info_Click" Foreground="#303136"/>
+            </MenuItem>
+        </Menu>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Text="Тип кодування:" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" Grid.Row="1" Grid.Column="1" Visibility="Visible"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Text="Криптосистема RSA" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" Grid.Row="2" Grid.Column="1" Visibility="Visible" FontSize="18" />
+        <!--<ComboBox x:Name="comboBoxEncryptionType" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"  Grid.Row="2" Grid.Column="1"  Background="#202225" BorderBrush="#FF202225" OpacityMask="#FF202225" SelectionChanged="ComboBoxEncryptionType_SelectionChanged">
+            <ComboBoxItem x:Name="cryptType0" Content="Шифр Цезаря"  Background="#202225" BorderBrush="#FF202225" OpacityMask="#FF202225" IsSelected="True"/>
+            <ComboBoxItem x:Name="cryptType1" Content="Шифр Тритеміуса"  Background="#202225" BorderBrush="#FF202225" OpacityMask="#FF202225"/>
+            <ComboBoxItem x:Name="cryptType2" Content="Шифр Віженера"  Background="#202225" BorderBrush="#FF202225" OpacityMask="#FF202225"/>
+        </ComboBox>-->
+        <TextBlock Foreground="White" x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="175, 0,0,0" Text="Мова:" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+        <ComboBox x:Name="comboBoxLanguage" HorizontalAlignment="Left" Margin="175, 0,0,0" VerticalAlignment="Center" Width="120" Grid.Row="2" Grid.Column="1" RenderTransformOrigin="0.504,0.469" Background="#202225" BorderBrush="#FF4A494E" OpacityMask="#FF202225">
+            <ComboBoxItem x:Name="engLang" Content="English"  Background="#202225" BorderBrush="#FF4A494E" Foreground="White"/>
+            <ComboBoxItem x:Name="ukrLang" Content="Українська"  Background="#202225" BorderBrush="#FF4A494E" Foreground="White"/>
+        </ComboBox>
+        <TextBlock Foreground="White" x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="320,0,0,0" Text="Ключ:" TextWrapping="Wrap" VerticalAlignment="Center"  Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="keyTextBox" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="360,0,0,0" TextWrapping="Wrap" Width="160" Height="22"  Grid.Row="2" Grid.Column="1" Background="#202225" BorderBrush="#FF4A494E" Foreground="White"/>
+        <!--<Button x:Name="CheatButton" Template="{StaticResource ButtonTemplate}" HorizontalAlignment="Right" Margin="0,0, 210, 0" VerticalAlignment="Center"  Width="55" Click="CheatButton_Click" Grid.Column="1" Grid.Row="2" Background="#FF0B0C0F" Foreground="#8f9095" BorderBrush="#FF0B0C0F" Height="25" BorderThickness="0,1,1,1" ClipToBounds="True">Чіт</Button>-->
+        <Button x:Name="EncryptButton" Template="{StaticResource ButtonTemplate}" HorizontalAlignment="Right" Margin="0,0, 105, 0" VerticalAlignment="Center"  Width="83" Click="EncryptButton_Click" Grid.Column="1" Grid.Row="2" Background="#FF0B0C0F" Foreground="#8f9095" BorderBrush="#FF0B0C0F" Height="25" BorderThickness="0,1,1,1" ClipToBounds="True">Шифрувати</Button>
+        <Button x:Name="DecryptButton" Template="{StaticResource ButtonTemplate}" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Width="83" Click="DecryptButton_Click" Grid.Column="1" Grid.Row="2" Background="#FF0B0C0F" Foreground="#8f9095" BorderBrush="#FF0B0C0F"  Height="25" BorderThickness="0,1,1,1" ClipToBounds="True" Margin="667,0,0,3">Дешифрувати</Button>
+        <TextBlock Foreground="White" HorizontalAlignment="Left" Text="Вхідний текст:" TextWrapping="Wrap" VerticalAlignment="Center"  Grid.Row="3" Grid.Column="1"/>
+        <TextBlock Foreground="White" x:Name="textBlock2_Copy" HorizontalAlignment="Left" Text="Вихідні дані:" TextWrapping="Wrap" VerticalAlignment="Center"  Grid.Row="5" Grid.Column="1"/>
+        <ScrollViewer CanContentScroll="True" Grid.Row="4" Grid.Column="1">
+            <TextBox x:Name="inputTextBox" Padding="15, 0, 15, 0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1" Height="205" Width="750"  Background="#202225" BorderBrush="#FF4A494E" Foreground="White"/>
+        </ScrollViewer>
+        <ScrollViewer CanContentScroll="True" Grid.Row="6" Grid.Column="1">
+            <TextBox x:Name="outputTextBlock" Padding="15, 0, 15, 0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="205" Width="750" Grid.ColumnSpan="2" Foreground="White" Background="#FF121212"/>
+        </ScrollViewer>
+    </Grid>
+</Page>
